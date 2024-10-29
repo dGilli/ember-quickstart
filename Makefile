@@ -64,7 +64,7 @@ ssh:
 .PHONY: open
 open:
 	@PORT=$$(docker port $(CONTAINER_ID) | grep -Eo '[0-9]+$$' | head -n 1) \
-	&& open http://localhost:$$PORT
+	&& [ -n "$$PORT" ] && open http://localhost:$$PORT || echo "Container is not running or has no exposed port"
 
 ## run: run the container
 .PHONY: run

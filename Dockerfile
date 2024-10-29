@@ -13,5 +13,6 @@ RUN printf '#!/bin/sh\nnpm run ember "$@"\n' > /usr/local/bin/ember \
 
 RUN adduser -D -s /bin/sh appuser
 USER appuser
+EXPOSE 4200
 
 CMD npm_install && npm run start
