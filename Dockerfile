@@ -8,9 +8,10 @@ COPY . .
 
 RUN printf '#!/bin/sh\nif [ ! -f "package-lock.json" ] || [ ! -d "node_modules" ]; then\n    npm install\nfi\n' > /usr/local/bin/npm_install \
     && chmod +x /usr/local/bin/npm_install
-RUN adduser -D -s /bin/sh appuser
+RUN printf '#!/bin/sh\nnpm run ember "$@"\n' > /usr/local/bin/ember \
+    && chmod +x /usr/local/bin/ember
 
-EXPOSE 4200
+RUN adduser -D -s /bin/sh appuser
 USER appuser
 
 CMD npm_install && npm run start
