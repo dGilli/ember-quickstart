@@ -63,7 +63,7 @@ ssh:
 ## open: open app in the browser
 .PHONY: open
 open:
-  @PORT=$$(docker port $$(docker ps -q | head -n 1) | grep -Eo '[0-9]+$$' | head -n 1) \
+	@PORT=$$(docker port $(CONTAINER_ID) | grep -Eo '[0-9]+$$' | head -n 1) \
 	&& open http://localhost:$$PORT
 
 ## run: run the container
