@@ -1,5 +1,6 @@
 IMAGE_NAME := $(shell basename $(CURDIR))
-DOCKER_EXEC := docker exec -it $(IMAGE_NAME)
+CONTAINER_ID := $(shell docker ps --filter "ancestor=$(IMAGE_NAME)" --format "{{.ID}}")
+DOCKER_EXEC := docker exec -it $(CONTAINER_ID)
 
 # ==================================================================================== #
 # HELPERS
@@ -57,12 +58,12 @@ build:
 ## ssh: shh into the running container
 .PHONY: ssh
 ssh:
-	$(DOCKER_EXEC) su-exec appuser /bin/sh
+	$(DOCKER_EXEC) /bin/sh
 
 ## open: open app in the browser
 .PHONY: open
 open:
-	@PORT=$$(docker port $$(docker ps -q | head -n 1) | grep -Eo '[0-9]+$$' | head -n 1) \
+  @PORT=$$(docker port $$(docker ps -q | head -n 1) | grep -Eo '[0-9]+$$' | head -n 1) \
 	&& open http://localhost:$$PORT
 
 ## run: run the container
